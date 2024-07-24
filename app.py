@@ -16,8 +16,14 @@ uploaded_file = st.file_uploader("Choose a file")
 
 if uploaded_file is not None:
     try:
-        # Read the uploaded file
-        data = pd.read_excel(uploaded_file)
+        # Determine the file type and read accordingly
+        if uploaded_file.name.endswith('.csv'):
+            data = pd.read_csv(uploaded_file)
+        elif uploaded_file.name.endswith(('.xls', '.xlsx')):
+            data = pd.read_excel(uploaded_file)
+        else:
+            st.error("Unsupported file format. Please upload a CSV or Excel file.")
+            st.stop()
         
         # Display the dataset
         st.write("Dataset:")
